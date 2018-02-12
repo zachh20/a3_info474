@@ -15,6 +15,10 @@ var yScale = d3.scaleLinear()
     .domain([0, d3.max(dataset, function(d) { return d[1]})])
     .range([height,0]);
 
+d3.csv('data.csv', function(data) {
+    console.log(data[0]);
+});
+
 svg.selectAll("circle") 
     .data(dataset)  
     .enter().append("circle")
