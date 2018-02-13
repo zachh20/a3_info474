@@ -4,8 +4,8 @@
 <style>     
     div.tooltip { 
     position: absolute; 
-    text-align: center; 
-    width: 200px; 
+    text-align: left; 
+    width: 300px; 
     height: 56px; 
     font: 12px sans-serif; 
     background: lightsteelblue; 
@@ -42,9 +42,9 @@ d3.csv('data.csv', function(data){
 
     var mouseData = [] 
     for (var i = 0; i < data.length; i++){
-        mouseData.push(["Unemployment Rate: " + data[i].FullTimeUnemploymentRate,
-                        "Median Salary: " + data[i].Median, 
-                        "Major Category: " + data[i].Major_category, 
+        mouseData.push(["Unemployment Rate: " + data[i].FullTimeUnemploymentRate + '<br />' +
+                        "Median Salary: " + data[i].Median + '<br />' +
+                        "Major Category: " + data[i].Major_category + '<br />' +
                         "Major: " + data[i].Major])
     }
 
