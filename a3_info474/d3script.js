@@ -30,18 +30,22 @@ $(function () {
             filterType(majorCat);
             console.log("Major cat" + majorCat);
         }
-        console.log("select= "+d3.select("#selectform"));
-        d3.select("selectform").onchange = function()  {
-            //var majorCat = document.getElementById('selectform')
-            console.log("firing");
-            var majorCat = d3.select('select').property('value');
-            filterType(majorCat);
-            console.log("Major cat" + majorCat);
-        }
-        console.log($( "#selectform" ).val());
+
+       //console.log("select= "+d3.select("#selectform"));
+
+        // d3.select("selectform").onchange = function()  {
+        //     //var majorCat = document.getElementById('selectform')
+        //     console.log("firing");
+        //     var majorCat = d3.select('select').property('value');
+        //     filterType(majorCat);
+        //     console.log("Major cat" + majorCat);
+        // }
+
+        //console.log($( "#selectform" ).val());
 
         $("select").change(function () {
            console.log("Changed value");
+           onchange();
         })
 
         function filterType(mtype) {
