@@ -40,9 +40,8 @@ $(function () {
         }
         console.log($( "#selectform" ).val());
 
-
-        $("#selectform").change(function () {
-            console.log("Changed value");
+        $("select").change(function () {
+           console.log("Changed value");
         })
 
         function filterType(mtype) {
