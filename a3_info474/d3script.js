@@ -23,6 +23,34 @@ $(function () {
            onchange();
         })
 
+
+        // For legend
+        var cValue = function (d) { return d["Major_category"]; },
+                color = d3.scaleOrdinal(d3.schemeCategory10);
+
+        // draw legend
+        var legend = svg.selectAll(".legend")
+            .data(color.domain())
+            .enter().append("g")
+            .attr("class", "legend")
+            .attr("transform", function (d, i) { return "translate(0" + "," + i * 25 + ")"; });
+
+        // draw legend colored rectangles
+        legend.append("rect")
+            .attr("x", width - 50)
+            .attr("width", 18)
+            .attr("height", 18)
+            .style("fill", col(data.Major_category));
+
+        // draw legend text
+        legend.append("text")
+            .attr("x", width - 16)
+            .attr("y", 9)
+            .attr("dy", ".35em")
+            .style("text-anchor", "end")
+            .text(function (d) { return d; })
+
+
         function filterType(mtype) {
             
             if (mtype == 'none') {
@@ -49,7 +77,6 @@ $(function () {
             var yScale = d3.scaleLinear()
                 .domain([30000, d3.max(newdata, function (d, i) { return newdata[i].Median })])
                 .range([height, 0]);
-
 
             var div = d3.select("body").append("div")
                 .attr("class", "tooltip")
@@ -99,8 +126,8 @@ $(function () {
                 .text("Median Salary (In dollars)");
   
             svg.selectAll('g')
-            .transition()
-            .duration(50)
+            //.transition()
+            //.duration(300)
             .remove();
             
             svg.append("g")
