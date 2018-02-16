@@ -40,38 +40,39 @@ $(function () {
             }
         }
 
-        function drawVis(data) {
-            
+        function drawVis(newdata) {
+            console.log(newdata)
             var xScale = d3.scaleLinear()
-                .domain([0, d3.max(data, function (d, i) { return data[i].FullTimeUnemploymentRate })])
+                .domain([0, d3.max(newdata, function (d, i) { return newdata[i].FullTimeUnemploymentRate })])
                 .range([0, width]);
 
             var yScale = d3.scaleLinear()
-                .domain([30000, d3.max(data, function (d, i) { return data[i].Median })])
+                .domain([30000, d3.max(newdata, function (d, i) { return newdata[i].Median })])
                 .range([height, 0]);
 
             var div = d3.select("body").append("div")
                 .attr("class", "tooltip")
                 .style("opacity", 0);
+
+            svg.selectAll('circle').remove();
             
             var circles = svg.selectAll("circle")
-                .data(data);
+                .data(newdata);
                 
             circles
                 .enter().append("circle")
-                .attr("cx", function (d, i) { return xScale(data[i].FullTimeUnemploymentRate); })
-                .attr("cy", function (d, i) { return yScale(data[i].Median); })
+                .attr("cx", function (d, i) { return xScale(newdata[i].FullTimeUnemploymentRate); })
+                .attr("cy", function (d, i) { return yScale(newdata[i].Median); })
                 .attr("r", 7)
-                .style("fill", function (d, i) { return col(data[i].Major_category); })
+                .style("fill", function (d, i) { return col(newdata[i].Major_category); })
                 .on("mouseover", function (d, i) {
-                    console.log(data[i].Major)
                     div.transition()
                         .duration(200)
                         .style("opacity", .9);
-                    div.html("Unemployment Rate: " + data[i].FullTimeUnemploymentRate + '<br />' +
-                "Median Salary: " + data[i].Median + '<br />' +
-                "Major Category: " + data[i].Major_category + '<br />' +
-                "Major: " + data[i].Major)
+                    div.html("Unemployment Rate: " + newdata[i].FullTimeUnemploymentRate + '<br />' +
+                "Median Salary: " + newdata[i].Median + '<br />' +
+                "Major Category: " + newdata[i].Major_category + '<br />' +
+                "Major: " + newdata[i].Major)
                         .style("left", (d3.event.pageX) + "px")
                         .style("top", (d3.event.pageY - 28) + "px");
                 })
@@ -90,7 +91,7 @@ $(function () {
             svg.append("g")
                 .call(d3.axisLeft(yScale));
             
-           circles.exit().remove();
+           
 
         }
 
