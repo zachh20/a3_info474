@@ -1,5 +1,5 @@
 $(function () {
-    var margin = { top: 20, right: 20, bottom: 20, left: 60 },
+    var margin = { top: 20, right: 20, bottom: 40, left: 60 },
         width = +800 - margin.left - margin.right,
         height = +650 - margin.top - margin.bottom
 
@@ -50,6 +50,7 @@ $(function () {
                 .domain([30000, d3.max(newdata, function (d, i) { return newdata[i].Median })])
                 .range([height, 0]);
 
+
             var div = d3.select("body").append("div")
                 .attr("class", "tooltip")
                 .style("opacity", 0);
@@ -82,8 +83,26 @@ $(function () {
                         .style("opacity", 0);
                 })
 
-            svg.selectAll('g').remove();
+            svg.append("text")             
+                .attr("transform",
+                    "translate(" + (width/2) + " ," + 
+                    (height + margin.top + 15) + ")")
+                .style("text-anchor", "middle")
+                .text("Unemployment Rate");
 
+            svg.append("text")
+                .attr("transform", "rotate(-90)")
+                .attr("y", 0 - margin.left)
+                .attr("x",0 - (height / 2))
+                .attr("dy", "1em")
+                .style("text-anchor", "middle")
+                .text("Median Salary (In dollars)");
+  
+            svg.selectAll('g')
+            .transition()
+            .duration(50)
+            .remove();
+            
             svg.append("g")
                 .attr("transform", "translate(0," + height + ")")
                 .call(d3.axisBottom(xScale));
