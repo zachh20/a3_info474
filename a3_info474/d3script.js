@@ -4,6 +4,7 @@ $(function () {
         height = +650 - margin.top - margin.bottom
 
     var col = d3.scaleOrdinal(d3.schemeCategory10);
+    var colors = ['']
 
     var svg = d3.select("svg")
         .append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
@@ -25,37 +26,42 @@ $(function () {
 
 
         // For legend
-        var cValue = function (d) { return d["Major_category"]; },
+        var cValue = function (d) { return data["Major_category"]; },
                 color = d3.scaleOrdinal(d3.schemeCategory10);
-
+        console.log(cValue);
         // draw legend
-        var legend = svg.selectAll(".legend")
-            .data(color.domain())
-            .enter().append("g")
-            .attr("class", "legend")
-            .attr("transform", function (d, i) { return "translate(0" + "," + i * 25 + ")"; });
+        function drawLegend() {
+            var categories = d3.map(data, function(d, i) {return data[i].Major_category;})
+            var catArray = categories.keys()
+            var legend = svg.selectAll(".legend")
+                .data(catArray)
+                .enter().append("g")
+                .attr("class", "legend")
+                .attr("transform", function (d, i) { return "translate(0" + "," + i * 25 + ")"; });
 
-        // draw legend colored rectangles
-        legend.append("rect")
-            .attr("x", width - 50)
-            .attr("width", 18)
-            .attr("height", 18)
-            .style("fill", col(data.Major_category));
+            // draw legend colored rectangles
+            legend.append("rect")
+                .attr("x", width - 50)
+                .attr("width", 18)
+                .attr("height", 18)
+                .style("fill", col);
 
-        // draw legend text
-        legend.append("text")
-            .attr("x", width - 16)
-            .attr("y", 9)
-            .attr("dy", ".35em")
-            .style("text-anchor", "end")
-            .text(function (d) { return d; })
+            // draw legend text
+            legend.append("text")
+                .attr("x", width - 60)
+                .attr("y", 9)
+                .attr("dy", ".35em")
+                .style("text-anchor", "end")
+                .text(function (d, i) {return catArray[i]; })
+        }
+        drawLegend();
 
 
         function filterType(mtype) {
-            
             if (mtype == 'none') {
                 console.log("myType = " + mtype)
                 drawVis(data);
+                drawLegend()
             } else {
                 
                 console.log("change")
@@ -69,7 +75,6 @@ $(function () {
         }
 
         function drawVis(newdata) {
-            console.log(newdata)
             var xScale = d3.scaleLinear()
                 .domain([0, d3.max(newdata, function (d, i) { return newdata[i].FullTimeUnemploymentRate })])
                 .range([0, width]);
